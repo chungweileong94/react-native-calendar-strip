@@ -17,6 +17,7 @@ export default class CalendarScroller extends Component {
     initialRenderIndex: PropTypes.number,
     renderDay: PropTypes.func,
     renderDayParams: PropTypes.object.isRequired,
+    startingDate: PropTypes.any,
     minDate: PropTypes.any,
     maxDate: PropTypes.any,
     maxSimultaneousDays: PropTypes.number,
@@ -128,11 +129,19 @@ export default class CalendarScroller extends Component {
 
   // Scroll to given date, and check against min and max date if available.
   scrollToDate = (date) => {
-    let targetDate = moment(date).subtract(Math.round(this.state.numVisibleItems / 2) - 1, "days");
     const {
       minDate,
       maxDate,
+      startingDate,
+      pagingEnabled,
     } = this.props;
+    let targetDate = null
+
+    if (pagingEnabled && startingDate) {
+      targetDate = moment(date).day(startingDate.day());
+    } else {
+      targetDate = moment(date).subtract(Math.round(this.state.numVisibleItems / 2) - 1, "days")
+    }
 
     // Falls back to min or max date when the given date exceeds the available dates
     if (minDate && targetDate.isBefore(minDate, "day")) {

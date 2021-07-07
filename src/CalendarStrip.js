@@ -558,6 +558,7 @@ class CalendarStrip extends Component {
           renderDayParams={{...this.createDayProps(this.state.selectedDate)}}
           maxSimultaneousDays={this.numDaysScroll}
           initialRenderIndex={this.state.initialScrollerIndex}
+          startingDate={this.props.startingDate}
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
           updateMonthYear={this.updateMonthYear}
